@@ -4,6 +4,8 @@ const User = require('../models/user');
 var passportJWT = require("passport-jwt");
 var JwtStrategy = passportJWT.Strategy;
 
+var JwtStrategy = passportJWT.Strategy;
+
 var strategy = new JwtStrategy(jwtOptions, function(jwt_payload, done) {
     console.log('payload received', jwt_payload);
     // usually this would be a database call:
