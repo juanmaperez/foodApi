@@ -5,7 +5,7 @@ var JwtStrategy = passportJWT.Strategy;
 
 var jwtOptions = {}
 
-jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
 jwtOptions.secretOrKey = 'FoodApp';
 
 module.exports = jwtOptions;
