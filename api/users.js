@@ -5,10 +5,10 @@ const FoodCategory  = ("../models/foodcategory");
 const Event         = ('../models/event');
 
 
-router.get(':id', (req, res, next ) => {
-
+router.get('/:id', (req, res, next ) => {
     const userID = req.params.id;
-
+    console.log(userID)
+    
     User.findById( userID, ( err, user ) => {
         if(err){
             return next(err);
