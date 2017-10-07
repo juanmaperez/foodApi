@@ -8,18 +8,18 @@ const userSchema = new Schema({
   username: {type: String, required: true},
   password: {type: String, required: true},
   email: {type: String, required: true}, 
-  age: {type: Number, required: true},
-  description: {type: String, required: true},
-  image: {type: String, required: true},
-  _foodInterests: [{ type: Schema.Types.ObjectId, ref: 'FoodCategory', required: true }],
-  _foodSpecialities: [{ type: Schema.Types.ObjectId, ref: 'FoodCategory', required: true }],
+  age: {type: Number, required: false},
+  description: {type: String, required: false},
+  image: {type: String, required: false},
+  _foodInterests: [{ type: Schema.Types.ObjectId, ref: 'FoodCategory', required: false }],
+  _foodSpecialities: [{ type: Schema.Types.ObjectId, ref: 'FoodCategory', required: false }],
   address: {
     type: [Number], // [<longitude>, <latitude>]
-    index: '2d', required: true
+    index: '2d', required: false
   },
-  city : {type: String, required: true},
-  _eventsCreated: [{ type: Schema.Types.ObjectId, ref: 'Event', required: true }],
-  _eventAssisted: [{ type: Schema.Types.ObjectId, ref: 'Event', required: true }]
+  city : {type: String, required: false},
+  _eventsCreated: [{ type: Schema.Types.ObjectId, ref: 'Event', required: false }],
+  _eventAssisted: [{ type: Schema.Types.ObjectId, ref: 'Event', required: false }]
 }, {
   timestamps: {
     createdAt: "created_at",

@@ -8,7 +8,8 @@ const foodCategorySchema = new Schema({
     description: {type: String, required:true},
     icon: {type: String, required:true},
     events : [{ type: Schema.Types.ObjectId, ref: 'Event', required: true }],
-    members : [{ type: Schema.Types.ObjectId, ref: 'User', required: true }]},{   
+    members : [{ type: Schema.Types.ObjectId, ref: 'User', required: true }]},
+    {   
     timestamps: {
       createdAt: "created_at",
       updatedAt: "updated_at"

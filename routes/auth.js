@@ -19,19 +19,15 @@ router.post("/signup", (req, res, next) => {
     var username = req.body.username;
     var password = req.body.password;
     var email    = req.body.email;
-    var age      = req.body.age;
-    var description = req.body.description;
-    var image = req.body.image;
-    
-  
-    if (!username || !password) {
-      res.status(400).json({ message: "Provide username and password" });
+    console.log("hola")
+    if (!username || !password || !email) {
+     res.status(400).json({ message: "All fields are mandatory!" });
       return;
     }
   
-    User.findOne({ username }, "username", (err, user) => {
+    User.findOne({ email }, "email", (err, user) => {
       if (user !== null) {
-        res.status(400).json({ message: 'user exist' });
+        res.status(400).json({ message: 'This email is already used' });
         return;
       }
   
@@ -40,7 +36,8 @@ router.post("/signup", (req, res, next) => {
   
       var newUser = User({
         username,
-        password: hashPass
+        password: hashPass,
+        email,
       });
   
       newUser.save((err, user) => {
@@ -49,9 +46,55 @@ router.post("/signup", (req, res, next) => {
         } else {
           var payload = {id: user._id, user: user.username};
           var token = jwt.sign(payload, jwtOptions.secretOrKey);
-          res.status(200).json({message: "ok", token: token, user: user});
+          return res.status(200).json({message: "ok", token: token, user: user});
             // res.status(200).json(user);
         }
       });
     });
   });
+
+
+
+router.get("/token", passport.authenticate('jwt', { session: false }), (req, res, next) => {
+	return res.json({ok:'ok'})
+})
+
+
+
+router.post("/login", function(req, res) {
+    //Compruebo que hay usuario y password
+    if(req.body.username && req.body.password){
+      var username = req.body.username;
+      var password = req.body.password;
+    }
+    // Compruebo qeu no hay vacío
+    if (username === "" || password === "") {
+      res.status(401).json({message:"fill up the fields"});
+      return;
+    }
+    //Compruebo si hay usuario
+    User.findOne({ "username": username }, (err, user)=> {
+  
+        if( ! user ){
+          return res.status(401).json({message:"Username or password are incorrect"});
+        } else {
+        bcrypt.compare(password, user.password, function(err, isMatch) {
+          console.log(isMatch);
+          if (!isMatch) {
+             return res.status(401).json({message:"Username or password are incorrect"});
+          } else {
+              console.log('user', user);
+            var payload = {id: user._id, user: user.username};
+            // uso el paquete jwt para generar el token a través del payload y las opciones del secreto
+            // esto está en ../config/jwtoptions.js
+            var token = jwt.sign(payload, jwtOptions.secretOrKey);
+            console.log(token)
+            return res.json({message: "Everything Ok", token: token, user: user});
+          }
+        });
+      }
+    })
+  });
+  
+
+module.exports = router
