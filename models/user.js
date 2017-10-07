@@ -19,7 +19,7 @@ const userSchema = new Schema({
   },
   city : {type: String, required: false},
   _eventsCreated: [{ type: Schema.Types.ObjectId, ref: 'Event', required: false }],
-  _eventAssisted: [{ type: Schema.Types.ObjectId, ref: 'Event', required: false }]
+  _eventsAssisted: [{ type: Schema.Types.ObjectId, ref: 'Event', required: false }]
 }, {
   timestamps: {
     createdAt: "created_at",
