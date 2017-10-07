@@ -20,6 +20,21 @@ router.get(':id', (req, res, next ) => {
     });
 });
 
+router.get('/:id', (req, res, next ) => {
+    
+        const userID = req.params.id;
+    
+        User.findById( userID, ( err, user ) => {
+            if(err){
+                return next(err);
+    
+            }else{
+                return res.status(200).json( user );
+            }
+    
+        });
+    });
+
 
 
 
