@@ -35,9 +35,18 @@ router.post("/signup", (req, res, next) => {
       var hashPass = bcrypt.hashSync(password, salt);
   
       var newUser = User({
-        username,
-        password: hashPass,
-        email,
+      
+        username          : username,
+        password          : hashPass,
+        email             : email,
+        age               : 0,
+        description       : "",
+        image             : "",
+        address           : "",
+        address_lat       : 0,
+        address_lng       : 0,
+        city              : ""
+  
       });
   
       newUser.save((err, user) => {
@@ -46,7 +55,7 @@ router.post("/signup", (req, res, next) => {
         } else {
           var payload = {id: user._id, user: user.username};
           var token = jwt.sign(payload, jwtOptions.secretOrKey);
-          return res.status(200).json({message: "ok", token: token, user: user});
+          return res.status(200).json({ message: "ok", token: token, user: user });
             // res.status(200).json(user);
         }
       });

@@ -12,6 +12,7 @@ mongoose.connect('mongodb://localhost/foodDB', { useMongoClient: true, promiseLi
 var index = require('./routes/index');
 var auth = require('./routes/auth');
 var users = require('./api/users');
+var imageupload = require('./api/imageupload');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use('/', auth);
 
 
 app.use('/api/users/', users);
+app.use('/api/imageupload/', imageupload);
 
 
 
