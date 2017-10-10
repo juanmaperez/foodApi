@@ -32,12 +32,14 @@ router.put('/:id', (req, res, next ) => {
         description  : req.body.description,
         address      : req.body.address,
         city         : req.body.city,
-        age          : parseFloat(req.body.age)
+        age          : parseFloat(req.body.age),
+        address_lat  : req.body.address_lat,
+        address_lng  : req.body.address_lng
 
     }
     console.log("userdata", userdata);
     
-    User.findByIdAndUpdate( userID, { userdata } , { multi: true }, ( err, userdata ) => {
+    User.findByIdAndUpdate( userID, userdata , { multi: true }, ( err, userdata ) => {
         if(err){
             return next(err);
 
@@ -47,6 +49,7 @@ router.put('/:id', (req, res, next ) => {
         }
 
     });
+    
 });
 
 
