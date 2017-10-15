@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const Schema   = mongoose.Schema;
 const User = require('./user');
-const FoodCategory = require('./foodCategory');
+//const FoodCategory = require('./foodCategory');
 
 const eventSchema = new Schema({
   title:            { type: String, required: true },
   description:      { type: String, required: true },
   image:            { type: String, required: true },
   recipe:           { type: String, required: true },
-  ingredients:      { type: Array, required: true },
+  ingredients:      [{ type: String, required: true }],
   date:             { type: Date, required: true },
   time:             { type: String, required: true },  
   _foodCategory:    { type: Schema.Types.ObjectId, ref: 'FoodCategory', required: true },
@@ -27,7 +27,7 @@ const eventSchema = new Schema({
                     }],  
   location:         {
                         type: [Number], // [<longitude>, <latitude>]
-                        index: '2d', required: true
+                        index: '2d', required: false,
                     },
   city :            {type: String, required: true},
   evaluation:       [{type: Number, require:true}],

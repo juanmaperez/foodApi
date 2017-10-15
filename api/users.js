@@ -1,8 +1,8 @@
 const express       = require('express');
 const router        =  express.Router();
 const User          = require("../models/user");
-const FoodCategory  = ("../models/foodcategory");
-const Event         = ('../models/event');
+//const FoodCategory  = require("../models/foodcategory");
+const Event         = require('../models/event');
 
 
 router.get('/:id', (req, res, next ) => {

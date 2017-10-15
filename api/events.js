@@ -1,28 +1,47 @@
 const express       = require('express');
 const router        =  express.Router();
 const User          = require("../models/user");
-const FoodCategory  = ("../models/foodcategory");
-const Event         = ('../models/event');
+//onst FoodCategory  = require("../models/foodcategory");
+const Event        = require('../models/event');
 
+
+router.get('/', (req, res, next)=>{
+    Event.find({}, (err, eventList)=>{
+        if(err){
+            return next(err)
+        }
+
+        return res.status(200).json(eventList)
+    })
+})
 
 router.post('/new', (req, res, next)=>{
-    const title = req.body.title;
-    const description = req.body.description;
-    const image = req.body.image;
-    const recipe = req.body.recipe;
-    const ingredientes = req.body.ingredients;
-    const date = req.body.date;
-    const time = req.body.time;
-    const cookingTime = req.body.cookingTime;
-    const contribution = req.body.contribution;
-    const _foodCategory = req.body.foodCategoryId;
-    const _host = req.body.userId;
-    const location = req.body.location;
-    const city = req.body.city;
 
-    const newEvent = new Event({
-
+    var newEvent = Event({
+        title: req.body.title,
+        description: req.body.description,
+        image: req.body.image,
+        recipe: req.body.recipe,
+        ingredients: req.body.ingredients,
+        date: req.body.date,
+        time: req.body.time,
+        cookingTime: req.body.cookingTime,
+        contribution: req.body.contribution,
+        _foodCategory:req.body._foodCategory,
+        _host: req.body._host,
+        location: req.body.location,
+        city: req.body.city,
     });
+
+    newEvent.save((err, event)=>{
+        if(err){
+            console.log('err', err)
+            return next(err);
+        }else{
+            console.log('no error', event)
+            return res.status(200).json({message:"Saved", reponse: event})
+        }
+    })
 })
 
 module.exports = router;

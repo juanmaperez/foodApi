@@ -6,8 +6,8 @@ var jwtOptions = require('../config/jwtoptions');
 const passport   = require('../config/passport');
 
 const User = require("../models/user");
-const FoodCategory = ("../models/foodcategory");
-const Event = ('../models/event')
+//const FoodCategory = require("../models/foodcategory");
+const Event = require('../models/event')
 
 const bcrypt         = require("bcrypt");
 const bcryptSalt     = 10;
