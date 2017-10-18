@@ -43,6 +43,7 @@ router.post('/:id', (req, res, next) => {
         file.fileRead = [];
 
         file.on('data', function (chunk) {
+            
             this.fileRead.push(chunk);
 
             let n = filename.lastIndexOf(".");
@@ -73,20 +74,15 @@ router.post('/:id', (req, res, next) => {
         Jimp.read(finalBuffer, (err, image) => {
 
             if (err) throw err;
-            console.log("imgdata ok", image);
-            image.resize(350, Jimp.AUTO);
-            //image.scaleToFit( w, h[, mode] );
-            image.quality(90);
+            
             let mime = mymimetype;
             let key = myfilename + "." + fileExtension;
-            console.log("key", key);
             let contenttype = mymimetype;
-            console.log("contenttype", contenttype);
-            console.log(mymimetype);
+            image.resize(350, Jimp.AUTO);
+            image.quality(90);
+            
             mybufferimage = image.getBuffer(mime, (err, imagebuffer) => {
                 if (err) throw err;
-                console.log("imagebuffer", imagebuffer);
-
 
                 // SET PARAMS FOR S3 IMAGE UPLOAD TO AMAZON //
                 var params = {
@@ -131,13 +127,11 @@ router.post('/:id', (req, res, next) => {
 
         });//CLOSE JIMP
 
-
     });
 
     req.pipe(busboy);
 
 });
-
 
 module.exports = router;
 

@@ -12,13 +12,14 @@ const userSchema = new Schema({
   age               : {  type: Number },
   description       : {  type: String },
   image             : {  type: String },
-  _foodInterests    : [{ type: Schema.Types.ObjectId, ref: 'FoodCategory' }],
-  _foodSpecialities : [{ type: Schema.Types.ObjectId, ref: 'FoodCategory' }],
+ // _foodInterests    : [{ type: Schema.Types.ObjectId, ref: 'FoodCategory' }],
+  //_foodSpecialities : [{ type: Schema.Types.ObjectId, ref: 'FoodCategory' }],
   /*address           : {
                           type: [ Number ], // [<longitude>, <latitude>]
                           index: '2d'
                       },*/
-  address           : { type : String },
+  _foodInterests    : {  type: [] },
+  address           : {  type: String },
   address_lat       : {  type: Number },
   address_lng       : {  type: Number },
   city              : {  type: String },

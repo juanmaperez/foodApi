@@ -1,8 +1,6 @@
 const express       = require('express');
 const router        =  express.Router();
 const User          = require("../models/user");
-const FoodCategory  = ("../models/foodcategory");
-const Event         = ('../models/event');
 
 
 router.get('/:id', (req, res, next ) => {
@@ -27,19 +25,21 @@ router.put('/:id', (req, res, next ) => {
 
     
     const userdata= {
-        username     : req.body.username,
-        email        : req.body.email,
-        description  : req.body.description,
-        address      : req.body.address,
-        city         : req.body.city,
-        age          : parseFloat(req.body.age),
-        address_lat  : req.body.address_lat,
-        address_lng  : req.body.address_lng
-
+        username          : req.body.username,
+        email             : req.body.email,
+        description       : req.body.description,
+        address           : req.body.address,
+        city              : req.body.city,
+        age               : parseFloat(req.body.age),
+        address_lat       : req.body.address_lat,
+        address_lng       : req.body.address_lng,
+        _foodInterests    : req.body.favfoods,
+        _foodSpecialities : req.body.specialities,
+        
     }
     console.log("userdata", userdata);
-    
-    User.findByIdAndUpdate( userID, userdata , { multi: true }, ( err, userdata ) => {
+    //$push: { files: { fileUrl: url, name: file.name } }
+    User.findByIdAndUpdate( userID , userdata , { multi: true }, ( err, userdata ) => {
         if(err){
             return next(err);
 
