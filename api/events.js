@@ -2,7 +2,8 @@ const express       = require('express');
 const router        =  express.Router();
 const User          = require("../models/user");
 //onst FoodCategory  = require("../models/foodcategory");
-const Event        = require('../models/event');
+const Event         = require('../models/event');
+const upload        = require('../config/multer');
 
 
 router.get('/', (req, res, next)=>{
@@ -15,12 +16,12 @@ router.get('/', (req, res, next)=>{
     })
 })
 
-router.post('/new', (req, res, next)=>{
+router.post('/new', upload.single('file'), (req, res, next)=>{
 
     var newEvent = Event({
         title: req.body.title,
         description: req.body.description,
-        image: req.body.image,
+        image: req.file.filename,
         recipe: req.body.recipe,
         ingredients: req.body.ingredients,
         date: req.body.date,
@@ -30,7 +31,6 @@ router.post('/new', (req, res, next)=>{
         _foodCategory:req.body._foodCategory,
         _host: req.body._host,
         location: req.body.location,
-        city: req.body.city,
     });
 
     newEvent.save((err, event)=>{
