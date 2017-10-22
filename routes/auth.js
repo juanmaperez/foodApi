@@ -19,7 +19,6 @@ router.post("/signup", (req, res, next) => {
     var username = req.body.username;
     var password = req.body.password;
     var email    = req.body.email;
-    console.log("hola")
     if (!username || !password || !email) {
      res.status(400).json({ message: "All fields are mandatory!" });
       return;
@@ -79,16 +78,16 @@ router.post("/login", function(req, res) {
           return res.status(401).json({message:"Username or password are incorrect"});
         } else {
         bcrypt.compare(password, user.password, function(err, isMatch) {
-          console.log(isMatch);
+          //console.log(isMatch);
           if (!isMatch) {
              return res.status(401).json({message:"Username or password are incorrect"});
           } else {
-              console.log('user', user);
+
             var payload = {id: user._id, user: user.username};
             // uso el paquete jwt para generar el token a través del payload y las opciones del secreto
             // esto está en ../config/jwtoptions.js
             var token = jwt.sign(payload, jwtOptions.secretOrKey);
-            console.log(token)
+            //console.log(token)
             return res.json({message: "Everything Ok", token: token, user: user});
           }
         });

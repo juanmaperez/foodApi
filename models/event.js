@@ -4,34 +4,33 @@ const User = require('./user');
 //const FoodCategory = require('./foodCategory');
 
 const eventSchema = new Schema({
-  title:            { type: String, required: true },
-  description:      { type: String, required: true },
-  image:            { type: String, required: true },
-  recipe:           { type: String, required: true },
-  ingredients:      [{ type: String, required: true }],
-  date:             { type: Date, required: true },
-  time:             { type: String, required: true },  
-  _foodCategory:    { type: Schema.Types.ObjectId, ref: 'FoodCategory', required: true },
-  cookingTime:      { type: String, required: true },
-  contribution:     { type:Number, required:true },  
-  _host:            { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  _guests:          [{ type: Schema.Types.ObjectId, ref: 'User', required: true }],
+  title:            { type: String, required: false },
+  description:      { type: String, required: false },
+  image:            { type: String, required: false },
+  recipe:           { type: String, required: false },
+  ingredients:      [{ type: String, required: false }],
+  date:             { type: Date, required: false },
+  time:             { type: String, required: false },  
+  _foodCategory:    { type: Schema.Types.ObjectId, ref: 'FoodCategory', required: false },
+  cookingTime:      { type: String, required: false },
+  contribution:     { type: Number, required:false },  
+  _host:            { type: Schema.Types.ObjectId, ref: 'User', required: false },
+  _guests:          [{ type: Schema.Types.ObjectId, ref: 'User', required: false }],
   comments:         [{ 
                         type: Object, 
-                        user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-                        comment: {type:String, required:true },
+                        user: { type: Schema.Types.ObjectId, ref: 'User', required: false },
+                        comment: {type:String, required:false },
                         timestamps: {
                             createdAt: "created_at",
                             updatedAt: "updated_at"
                         }
                     }],  
-  location:         {
-                        type: [Number], // [<longitude>, <latitude>]
-                        index: '2d', required: false,
+  location_lat:     { type: Number, required: false },
+  location_lng:     { type: Number, required: false },
+  
+  address :         { type: String, required: false },
+  evaluation:       [{ type: Number, require:false }],
                     },
-  city :            {type: String, required: true},
-  evaluation:       [{type: Number, require:true}],
-                    }, 
 { timestamps:       { createdAt: "created_at",
                     updatedAt: "updated_at"
                     }
