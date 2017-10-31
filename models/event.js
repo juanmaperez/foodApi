@@ -10,7 +10,6 @@ const eventSchema = new Schema({
   recipe:           { type: String, required: false },
   ingredients:      [{ type: String, required: false }],
   date:             { type: Date, required: false },
-  time:             { type: String, required: false },  
   _foodCategory:    { type: Schema.Types.ObjectId, ref: 'FoodCategory', required: false },
   cookingTime:      { type: String, required: false },
   contribution:     { type: Number, required:false },  

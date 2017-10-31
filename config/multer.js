@@ -7,6 +7,8 @@ const env = require('dotenv').config();
 
 // console.log("environment", env)
 
+// console.log(process.env.accessKeyId)
+// console.log(process.env.secretAccessKey)
 
 const s3 = new aws.S3({
     accessKeyId: process.env.accessKeyId, 
