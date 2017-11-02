@@ -10,6 +10,7 @@ const env = require("dotenv").config();
 
 
 router.post('/:id', (req, res, next) => {
+    console.log("imageuload")
     const userID = req.params.id;
     console.log("userid inside api imageupload", userID)
 
@@ -25,10 +26,10 @@ router.post('/:id', (req, res, next) => {
     //CONFIG FOR AMAZON S3 UPLOAD //
     let config = {
 
-        accessKeyId: process.env.AMAZON_S3_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AMAZON_S3_SECRET_ACCESS_KEY,
-        sslEnabled: false,
-        region: 'eu-central-1',
+        accessKeyId:        process.env.AMAZON_S3_ACCESS_KEY_ID,
+        secretAccessKey:    process.env.AMAZON_S3_SECRET_ACCESS_KEY,
+        sslEnabled:         false,
+        region:             'eu-central-1',
 
     };
 
@@ -62,10 +63,10 @@ router.post('/:id', (req, res, next) => {
         });
     });
     busboy.on('error', function (err) {
-        console.log('An error has occured: \n' + err);
+        
     });
     busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-        console.log('Field [' + fieldname + ']: value: ');
+       
     });
     busboy.on('finish', function () {
 
@@ -93,14 +94,14 @@ router.post('/:id', (req, res, next) => {
                 };
 
                 s3.putObject(params, function (perr, pres) {
-                    console.log('PRES', pres)
+                    
                     if (perr) {
                         //MESSAGE FOR USER
-                        console.log("Error uploading data: ", perr);
+                        console.log("Error uploading data: ");
                     } else {
-                        console.log("Successfully uploaded data to myBucket/myKey", perr);
+                        console.log("Successfully uploaded data to myBucket/myKey");
                         //console.log("currentuser ",currentuser);
-                        console.log("key ", key);
+                        
                         const profileImgUrl = "https://s3.eu-central-1.amazonaws.com/sooking/" + key;
 
 

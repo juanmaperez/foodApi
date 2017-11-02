@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start-dev": "nodemon ./bin/www"
+    "start-dev": "nodemon ./bin/www",
+    "seed": "node ./bin/seed.js"
   },
   "dependencies": {
     "aws-sdk": "^2.130.0",
@@ -13,6 +14,7 @@
     "busboy": "^0.2.14",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
+    "dateformat": "^3.0.2",
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",
     "ejs": "^2.5.7",
@@ -23,6 +25,8 @@
     "mongoose": "^4.12.0",
     "morgan": "~1.8.1",
     "multer": "^1.3.0",
+    "node-schedule": "^1.2.5",
+    "nodemailer": "^4.3.1",
     "nodemon": "^1.12.1",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0",
