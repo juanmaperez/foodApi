@@ -8,7 +8,9 @@ const upload        = require('../config/multer');
 
 
 router.get('/', (req, res, next)=>{
-    Event.find({}, (err, eventList)=>{
+    Event.find({})
+    .sort({date: 'desc'})
+    .exec( (err, eventList)=>{
         if(err){
             return res.status(500).json({ message: 'Error getting events' });
         }
@@ -16,6 +18,15 @@ router.get('/', (req, res, next)=>{
         return res.status(200).json(eventList)
     })
 })
+
+    // Event.find({}, (err, eventList)=>{
+    //     if(err){
+    //         return res.status(500).json({ message: 'Error getting events' });
+    //     }
+
+    //     return res.status(200).json(eventList)
+    // })
+// })
 
 
 
@@ -63,6 +74,7 @@ router.post('/new', upload.single('file'), (req, res, next)=>{
      Event.findById(eventId)
      .populate("_host")
      .populate("_guests")
+     .populate("comments.user")
      .then(event => {
          return res.status(200).json(event)
      })
@@ -92,15 +104,17 @@ router.post('/new', upload.single('file'), (req, res, next)=>{
 
 router.put('/subscribe/:id',(req, res, next)=>{
 
-    const eventID = req.params.id
+    const eventID = req.params.id;
     const userID = req.body.userID;
+
     Event.findById(eventID, (err, event)=>{
         if(err || !event){
           return res.status(404).json({message: "Event not found"})
          }
-        
+
         event._guests.push(userID);
-        event.update({_guests: event._guests},(error, event)=>{
+        event.places --;
+        event.update({_guests: event._guests, places: event.places},(error, event)=>{
             if(error){
                 return res.status(404).json({message: "Error saving event"})
             }
@@ -114,9 +128,82 @@ router.put('/subscribe/:id',(req, res, next)=>{
 })
 
 
+router.put('/desubscribe/:id',(req, res, next)=>{
+    
+    const eventID = req.params.id;
+    const userID = req.body.userID;
+
+    Event.findById(eventID, (err, event)=>{
+        if(err || !event){
+            return res.status(404).json({message: "Event not found"})
+            }
+
+        event._guests.forEach((element,idx)=>{
+            if(element == userID){
+                event._guests.splice(idx, 1);
+            }
+        })
+        event.places ++;
+        event.update({_guests: event._guests, places: event.places},(error, event)=>{
+            if(error){
+                return res.status(404).json({message: "Error saving event"})
+            }
+
+
+        })
+
+        return res.status(200).json({event})
+        
+    })
+})
+
+router.put('/comment/:id', (req, res, next)=>{
+    const eventID = req.params.id
+    
+    const comment = {
+        user: req.body.comment.user,
+        comment : req.body.comment.comment
+    }
+
+    // console.log("comentario", comment)
+
+    Event.findByIdAndUpdate(eventID, {$push:{comments: comment}}, (err, event)=>{
+       
+        if(err){
+            return res.status(404).json({message: "Error Saving Comment"})
+        }
+        
+        return res.status(200).json({message: "Comment saved", event})
+        
+    })
+    /*
+    Event.findById(eventID, (err, event)=>{
+        
+        if(err || !event){
+            return res.status(404).json({message: "Event not found"})
+        }
+        console.log("body", req.body.comment)
+        event.comments.push(req.body.comment);
+
+        console.log("comment", event.comments)
+        
+        event.update({comments: event.comments},(error, event)=>{
+            if(error){
+                return res.status(404).json({message: "Error adding comment"})
+            }
+
+
+        })
+
+        return res.status(200).json({message: "Comment saved", event})
+    })*/
+})
+
+
+
 router.put('/update/:id', (req, res, next)=>{
     const eventID = req.params.id;
-   
+    console.log(req.body)
     const date = new Date(req.body.event.date +" "+ req.body.event.time)
     
     const newEvent = {
@@ -146,5 +233,7 @@ router.put('/update/:id', (req, res, next)=>{
     })
     
 })
+
+
 
 module.exports = router;
