@@ -10,10 +10,9 @@ const env = require("dotenv").config();
 
 
 router.post('/:id', (req, res, next) => {
-    console.log("imageuload")
+   
     const userID = req.params.id;
-    console.log("userid inside api imageupload", userID)
-
+   
     // INTRODUCING VARIABLES FOR IMAGE PROCESSING //
     let imgdata;
     let myfilename;
@@ -102,7 +101,7 @@ router.post('/:id', (req, res, next) => {
                         console.log("Successfully uploaded data to myBucket/myKey");
                         //console.log("currentuser ",currentuser);
                         
-                        const profileImgUrl = "https://s3.eu-central-1.amazonaws.com/sooking/" + key;
+                        const profileImgUrl = "https://s3.amazonaws.com/sooking/" + key;
 
 
                         User.findByIdAndUpdate(userID, { image: profileImgUrl }, (err, data) => {
@@ -115,7 +114,6 @@ router.post('/:id', (req, res, next) => {
                             }
 
                         });
-
                     }
                 });
             });//CLOSE BUFFER CREATE

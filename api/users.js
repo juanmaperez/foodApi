@@ -5,8 +5,9 @@ const Event         = require("../models/event" );
 
 
 router.get('/:id', (req, res, next ) => {
+    
     const userID = req.params.id;
-    console.log("inside id before populate test");
+
     User.findById( userID )
         .populate('_eventsSubscribed')
         .exec(( err, user ) => {
@@ -40,7 +41,7 @@ router.get('/:id', (req, res, next ) => {
                     }
                 }   
                 
-                
+                // GET ALL EVENTS HOSTED BY THIS USER AND GET ALL HIS REVIEWS //
                 Event.find( { _host : userID } , ( err, events ) => {
 
                     if(err){
@@ -48,11 +49,18 @@ router.get('/:id', (req, res, next ) => {
                     }else{
                         
                         let reviews=[];
+        
                         if(events.length > 0){
-                            for(let i = 0; i > events.length; i++ ){
-                                reviews.push(events.review[i]);
+                            
+                            for( let i = 0; i < events.length; i++ ){
+                                          
+                                for(let j = 0; j < events[i].review.length; j++){
+                            
+                                    reviews.push( events[i].review[j]) ;
+                                }
                             }
                         }
+            
                         return res.status(200).json({ user, eventsToBeRated, events, reviews } );
                     }
 
@@ -87,7 +95,6 @@ router.put('/:id', (req, res, next ) => {
     
     const userID = req.params.id;
     const birthdate = new Date(req.body.birthdate+"");
-    console.log("birtdate", birthdate)
     
     const userdata= {
         username            : req.body.username,
@@ -104,8 +111,6 @@ router.put('/:id', (req, res, next ) => {
 
     }
 
-    console.log("userdata before update", userdata);
-    
     User.findByIdAndUpdate( userID, userdata , { multi: true }, ( err, userdata ) => {
         if(err){
             return next(err);

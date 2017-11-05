@@ -74,9 +74,6 @@ function checkUpcomingEvents(){
 
   let timeFrame24hFromNow   = timeStampNow + (24 * 60 * 60 * 1000 )
  
-  console.log('The answer to life, the universe, and everything!');
-
-
   Event.find( { "date" : {$gte:new Date( timeStampNow ), $lte:new Date( timeFrame24hFromNow )}})
     .populate('_guests')
     .exec(( err, events ) => {
@@ -162,6 +159,8 @@ function createMailWithUserData(eventTitle, eventData, eventCity, eventImage, us
     });
 }
 
+
+// USE THIS PACKAGE ONCE TO PROCESS ALL CSS STYLES INTO INLINE STYLES //
 /*var originalSource = require('fs').readFileSync(path.join(__dirname , 'public/mails/mail-confirm-register.html'), 'utf8');
 
 styliner.processHTML(originalSource)
@@ -188,8 +187,8 @@ function sendSubscribeMail(subscribemail){
     });
 
     var mailOptions = {
-      from:    '',
-      to:      '',
+      from:    '',     // here goes our email
+      to:      '',    // here goes useremail
       subject: 'You have an upcoming event',
       html:     subscribemail
     }
