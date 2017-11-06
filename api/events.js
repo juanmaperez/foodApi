@@ -119,6 +119,13 @@ router.put('/subscribe/:id',(req, res, next)=>{
                 return res.status(404).json({message: "Error saving event"})
             }
 
+            User.findByIdAndUpdate( userID, { $push : { _eventsSubscribed : eventID  }}, ( err, userdata ) => {
+                if(err){
+                    return next(err);
+                }
+        
+            });
+
 
         })
 
@@ -149,12 +156,33 @@ router.put('/desubscribe/:id',(req, res, next)=>{
                 return res.status(404).json({message: "Error saving event"})
             }
 
+            User.findById(userID,(error, userdata)=>{
+                if( err || !userdata){
+                    return res.status(404).json({message: "User not found"})
+                }
+                console.log("user", userdata)
+                userdata._eventsSubscribed.forEach((eventid, idx )=>{
+                    if(eventid == eventID){
+                        userdata._eventsSubscribed.splice(idx, 1)
+                    }
+                })
 
+                userdata.update({_eventsSubscribed: userdata._eventsSubscribed},(error, userdata)=>{
+                    if(error){
+                        return res.status(404).json({message: "Error saving user"})
+                    }
+
+                    console.log("userupdated", userdata) 
+                })
+            
+            }) 
+                   
         })
 
         return res.status(200).json({event})
         
     })
+
 })
 
 router.put('/comment/:id', (req, res, next)=>{

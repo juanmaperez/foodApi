@@ -25,8 +25,8 @@ router.post('/:id', (req, res, next) => {
     //CONFIG FOR AMAZON S3 UPLOAD //
     let config = {
 
-        accessKeyId:        process.env.AMAZON_S3_ACCESS_KEY_ID,
-        secretAccessKey:    process.env.AMAZON_S3_SECRET_ACCESS_KEY,
+        accessKeyId:        process.env.accessKeyId,
+        secretAccessKey:    process.env.secretAccessKey,
         sslEnabled:         false,
         region:             'eu-central-1',
 
@@ -86,7 +86,7 @@ router.post('/:id', (req, res, next) => {
 
                 // SET PARAMS FOR S3 IMAGE UPLOAD TO AMAZON //
                 var params = {
-                    Bucket: 'sooking',
+                    Bucket: 'socialooking',
                     Key: key,
                     Body: imagebuffer,
                     ContentType: contenttype,
@@ -101,7 +101,7 @@ router.post('/:id', (req, res, next) => {
                         console.log("Successfully uploaded data to myBucket/myKey");
                         //console.log("currentuser ",currentuser);
                         
-                        const profileImgUrl = "https://s3.amazonaws.com/sooking/" + key;
+                        const profileImgUrl = "https://s3.eu-central-1.amazonaws.com/socialooking/" + key;
 
 
                         User.findByIdAndUpdate(userID, { image: profileImgUrl }, (err, data) => {
