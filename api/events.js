@@ -176,27 +176,7 @@ router.put('/comment/:id', (req, res, next)=>{
         return res.status(200).json({message: "Comment saved", event})
         
     })
-    /*
-    Event.findById(eventID, (err, event)=>{
-        
-        if(err || !event){
-            return res.status(404).json({message: "Event not found"})
-        }
-        console.log("body", req.body.comment)
-        event.comments.push(req.body.comment);
 
-        console.log("comment", event.comments)
-        
-        event.update({comments: event.comments},(error, event)=>{
-            if(error){
-                return res.status(404).json({message: "Error adding comment"})
-            }
-
-
-        })
-
-        return res.status(200).json({message: "Comment saved", event})
-    })*/
 })
 
 
