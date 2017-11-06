@@ -154,7 +154,7 @@ router.post("/login", function(req, res) {
       
           var mailOptions = {
             from:    'Social Cooking <sentmailssocket@gmail.com>',
-            to:      'giulia.gottschalk@gmail.com',
+            to:      ' ',
             subject: 'Social Cooking Signup Confirmation',
             html:     subscribemail
           }

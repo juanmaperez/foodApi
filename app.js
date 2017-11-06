@@ -13,7 +13,6 @@ var mongoose        = require('mongoose');
 const ejs           = require('ejs');
 const dateformat    = require('dateformat');
         
-
 require("dotenv").config();
 
 /*if ( process.env.NODE_ENV === 'development' ) {
@@ -21,7 +20,7 @@ require("dotenv").config();
 } else {
 	const sookingWebUrl= process.env.WEBSITE;
 }*/
-
+require("dotenv").config();
 const sookingWebUrl = process.env.WEBSITE;
 
 mongoose.connect('mongodb://localhost/foodDB', { useMongoClient: true, promiseLibrary: global.Promise });

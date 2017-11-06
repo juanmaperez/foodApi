@@ -7,11 +7,12 @@ router.post('/review/:id', ( req, res, next ) => {
     console.log("INSIDE UPDATE EVENT");
     const eventID = req.params.id;
     console.log("eventID", eventID);
+    let rating = parseFloat(req.body.rating) * 10 + "";
     const review = {
        
             title        : req.body.title,
             comment      : req.body.comment,
-            rating       : req.body.rating,
+            rating       : rating,
             points       : parseInt( req.body.points )
     }
                                        
