@@ -214,6 +214,30 @@ router.put('/update/:id', (req, res, next)=>{
     
 })
 
+router.post('/review/:id', ( req, res, next ) => {
+    console.log("INSIDE UPDATE EVENT");
+    const eventID = req.params.id;
+    console.log("eventID", eventID);
+    //let rating = parseFloat(req.body.rating) * 10 + "";
+    const review = {
+       
+            title        : req.body.title,
+            comment      : req.body.comment,
+            rating       : req.body.rating,
+            points       : parseInt( req.body.points )
+    }
+                                       
+    Event.findByIdAndUpdate( eventID , { $push : { review : review }} , ( err, eventdata ) => {
+        if(err){
+            return next(err);
+        }else{
+            console.log( eventdata );
+            return res.status(200).json( eventdata );
+        }
+    });
+
+});
+
 
 
 module.exports = router;
