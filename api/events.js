@@ -107,23 +107,28 @@ router.put('/subscribe/:id',(req, res, next)=>{
     const eventID = req.params.id;
     const userID = req.body.userID;
 
+    console.log("entro")
+
     Event.findById(eventID, (err, event)=>{
         if(err || !event){
           return res.status(404).json({message: "Event not found"})
          }
 
+         console.log("encuentro el evento")
         event._guests.push(userID);
+        console.log(event._guests)
         event.places --;
         event.update({_guests: event._guests, places: event.places},(error, event)=>{
             if(error){
+                console.log("tengo un error")
                 return res.status(404).json({message: "Error saving event"})
             }
-
+            console.log("actualizo el evento")
             User.findByIdAndUpdate( userID, { $push : { _eventsSubscribed : eventID  }}, ( err, userdata ) => {
                 if(err){
                     return next(err);
                 }
-        
+                console.log("actualizo el usuario")
             });
 
 
@@ -176,7 +181,7 @@ router.put('/desubscribe/:id',(req, res, next)=>{
                 })
             
             }) 
-                   
+
         })
 
         return res.status(200).json({event})
@@ -252,7 +257,7 @@ router.post('/review/:id', ( req, res, next ) => {
             title        : req.body.title,
             comment      : req.body.comment,
             rating       : req.body.rating,
-            points       : parseInt( req.body.points )
+            puntuation   : parseInt( req.body.points )
     }
                                        
     Event.findByIdAndUpdate( eventID , { $push : { review : review }} , ( err, eventdata ) => {

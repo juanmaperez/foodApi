@@ -58,13 +58,13 @@ app.use('/api/events', events);
 
 /// CLEAR COMMENT TO SET CRON JOB ///
 
-/*var rule = new schedule.RecurrenceRule();
-rule.second = 3; // to set to minutes -> rule.minute = 60
+// var rule = new schedule.RecurrenceRule();
+// rule.second = 1; // to set to minutes -> rule.minute = 60
 
-var scheduleCheckEvents = schedule.scheduleJob(rule, () => {
-  console.log("inside schedulecheckevents");
-  //checkUpcomingEvents();
-});*/
+// var scheduleCheckEvents = schedule.scheduleJob(rule, () => {
+//   console.log("inside schedulecheckevents");
+//   checkUpcomingEvents();
+// });
 
 function checkUpcomingEvents(){
   /******** CHECK IF ANY UPCOMING EVENTS WITHIN 24 HOURS FROM NOW  ********/
@@ -80,6 +80,7 @@ function checkUpcomingEvents(){
             return next(err);
 
     }else{
+      
         let emailData = {
             eventUrl    : "",
             eventTitle  : "",
@@ -93,11 +94,11 @@ function checkUpcomingEvents(){
         let emails = [];
         
         if( events.length > 0){
-        
+        console.log("in if")
           for(let i = 0; i < events.length; i++ ){
             
               for(let j=0; j < events[i]._guests.length; j++ ){
-               
+               console.log("in loop")
                 emails.push( {
                   eventUrl    : sookingWebUrl + "events/"+ events[i]._id,
                   eventTitle  : events[i].title,
@@ -131,7 +132,7 @@ function loopThroughEmails(emails){
     let userName    = emails[i].userName;
     let userEmail   = emails[i].userEmail;
     let eventUrl    = emails[i].eventUrl;
-
+    console.log("emails", emails)
     createMailWithUserData(eventTitle, eventData, eventCity, eventImage, userName, userEmail, eventUrl)
   }
 
@@ -139,7 +140,7 @@ function loopThroughEmails(emails){
 
 //********* CREATE EVENT REMINDER MAIL **********//
 function createMailWithUserData(eventTitle, eventData, eventCity, eventImage, userName, userEmail, eventUrl){
-
+console.log("hi")
     ejs.renderFile( path.join(__dirname, '/public/mails/mail-reminder-event.ejs'), {
       eventTitle    : eventTitle,
       eventData     : eventData,
@@ -169,25 +170,27 @@ styliner.processHTML(originalSource)
             if (err) throw err;
             console.log('The file has been saved!');
           });
-            //sendSubscribeMail( processedSource );
+            sendSubscribeMail( processedSource );
         });*/
 
 function sendSubscribeMail(subscribemail){
     const transporter = nodemailer.createTransport({
       service:        'gmail',
       auth: {
-        type: '       OAuth2',
-        user:         process.env.GMAIL_API_USER,
-        clientId:     process.env.GMAIL_API_CLIENTID,
-        clientSecret: process.env.GMAIL_API_CLIENTSECRET, 
-        accessToken:  process.env.GMAIL_API_ACCESSTOKEN,
-        refreshToken: process.env.GMAIL_API_REFRESHTOKEN 
+        type:         'OAuth2',
+        user:         "sentmailssocket@gmail.com",
+        clientId:     "652901027611-a3rvc4c92vf07hoqjv6vht6hp5jtu7t9.apps.googleusercontent.com",
+        clientSecret: "NRSUQmra8-A1WLW3ze8dnyYm",
+        accessToken:  "ya29.GlvpBBJFCzV416Odgs4Iafe7kwyBYZhAEER3Uk9eAYIvBCaBbbPjoHqBNZuQwi5N5XpwdtgO7iKQlCik34IfBDCsSdqcsKpe5oLyA5qExudiyf34B5wqHHztNam3",
+        refreshToken: "1/Nl0l7dyBp4eOvhZYzB61Krplk48MeryS2_O6XXKzSgA",
       },
     });
 
+ 
+    
     var mailOptions = {
-      from:    '',     // here goes our email
-      to:      '',    // here goes useremail
+      from:    'sentmailssocket@gmail.com',     // here goes our email
+      to:      'juanmaperezvar@gmail.com',    // here goes useremail
       subject: 'You have an upcoming event',
       html:     subscribemail
     }

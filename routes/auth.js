@@ -74,7 +74,7 @@ router.post("/signup", (req, res, next) => {
           var payload = {id: user._id, user: user.username};
           var token = jwt.sign(payload, jwtOptions.secretOrKey);
           // ENVIO DEL MAIL CUANDO HASCES SIGNUP
-          //createMailWithUserData( user.username, user.email );
+          createMailWithUserData( user.username, user.email );
           return res.status(200).json({ message: "ok", token: token, user: user });
             // res.status(200).json(user);
         }
@@ -146,11 +146,12 @@ router.post("/login", function(req, res) {
             service: 'gmail',
             auth: {
               type: 'OAuth2',
-              user: 'sentmailssocket@gmail.com',
-              clientId: "652901027611-a3rvc4c92vf07hoqjv6vht6hp5jtu7t9.apps.googleusercontent.com",
-              clientSecret: "NRSUQmra8-A1WLW3ze8dnyYm",
-              accessToken: "ya29.GlvpBBJFCzV416Odgs4Iafe7kwyBYZhAEER3Uk9eAYIvBCaBbbPjoHqBNZuQwi5N5XpwdtgO7iKQlCik34IfBDCsSdqcsKpe5oLyA5qExudiyf34B5wqHHztNam3",
-              refreshToken: "1/Nl0l7dyBp4eOvhZYzB61Krplk48MeryS2_O6XXKzSgA",
+              user:         process.env.GMAIL_API_USER,
+              clientId:     process.env.GMAIL_API_CLIENTID,
+              clientSecret: process.env.GMAIL_API_CLIENTSECRET, 
+              accessToken:  process.env.GMAIL_API_ACCESSTOKEN,
+              refreshToken: process.env.GMAIL_API_REFRESHTOKEN, 
+             
             },
           });
       
